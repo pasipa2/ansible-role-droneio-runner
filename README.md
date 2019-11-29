@@ -1,30 +1,34 @@
 Role Name
 =========
 
-A brief description of the role goes here.
+This role installs droneio-runner service as docker-conpose service
 
 Requirements
 ------------
 
-Any pre-requisites that may not be covered by Ansible itself or the role should
-be mentioned here. For instance, if the role uses the EC2 module, it may be a
-good idea to mention in this section that the boto package is required.
+Docker 
 
 Role Variables
 --------------
 
-A description of the settable variables for this role should go here, including
-any variables that are in defaults/main.yml, vars/main.yml, and any variables
-that can/should be set via parameters to the role. Any variables that are read
-from other roles and/or the global scope (ie. hostvars, group vars, etc.) should
-be mentioned here as well.
+```
+drone_rpc_proto: http
+drone_rpc_host: localhost
+drone_rpc_secret: so_secret
+drone_runner_capacity: 2
+drone_runner_config_file: /etc/sysconfig/drone-runner
+drone_work_dir: /opt/drone
+drone_runner_image: drone/drone-runner-docker:1
+drone_service_name: drone-runner
+drone_service_state: started
+drone_restart_handler_state: restarted
+drone_service_enabled: true
+```
 
 Dependencies
 ------------
 
-A list of other roles hosted on Galaxy should go here, plus any details in
-regards to parameters that may need to be set for other roles, or variables that
-are used from other roles.
+Centos 7
 
 Example Playbook
 ----------------
@@ -32,9 +36,14 @@ Example Playbook
 Including an example of how to use your role (for instance, with variables
 passed in as parameters) is always nice for users too:
 
-    - hosts: servers
-      roles:
-         - { role: ansible-role-droneio-runner, x: 42 }
+```
+- name: install runner
+  hosts: all
+  become: true
+  roles:
+    - ansible-role-docker
+    - ansible-role-droneio-runner
+```
 
 License
 -------
@@ -44,5 +53,4 @@ BSD
 Author Information
 ------------------
 
-An optional section for the role authors to include contact information, or a
-website (HTML is not allowed).
+This role was created in by [hukuruIO](https://www.hukuru.io/)

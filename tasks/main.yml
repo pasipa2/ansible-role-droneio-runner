@@ -24,8 +24,14 @@
   systemd:
     name: "{{ drone_service_name }}"
     daemon_reload: true
-    state: restarted
+    state: "{{ drone_restart_handler_state }}"
   when: drone_runner_service_file_updated is changed
 
 - name: Force a restart if configuration has changed
   meta: flush_handlers
+
+- name: Start drone_runner_service.
+  service:
+    name: "{{ drone_service_name }}"
+    state: "{{ drone_service_state }}"
+    enabled: "{{ drone_service_enabled }}"
