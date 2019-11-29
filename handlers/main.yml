@@ -1,0 +1,7 @@
+---
+# handlers file for ansible-role-droneio-runner
+
+- name: restart drone-runner
+  service:
+    name: "{{ drone_service_name }}"
+    state: "{{ drone_restart_handler_state }}"

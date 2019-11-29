@@ -1,0 +1,14 @@
+---
+# defaults file for ansible-role-droneio-runner
+
+drone_rpc_proto: http
+drone_rpc_host: localhost
+drone_rpc_secret: so_secret
+drone_runner_capacity: 2
+drone_runner_config_file: /etc/sysconfig/drone-runner
+drone_work_dir: /opt/drone
+drone_runner_image: drone/drone-runner-docker:1
+drone_service_name: drone-runner
+drone_service_state: started
+drone_restart_handler_state: restarted
+drone_service_enabled: true

@@ -1,0 +1,31 @@
+---
+# tasks file for ansible-role-droneio-runner
+
+- name: Ensure our drone directory exists
+  file:
+    path: "{{ drone_work_dir }}"
+    state: directory
+
+- name: drone_runner compose file
+  template:
+    src: docker-compose.yml.j2
+    dest: "{{ drone_work_dir }}/docker-compose.yml"
+  notify:
+    - restart drone-runner
+
+- name: drone_runner_systemd service file
+  template:
+    src: drone_runner.service.j2
+    dest: "/etc/systemd/system/{{ drone_service_name }}.service"
+    mode: 0660
+  register: drone_runner_service_file_updated
+
+- name: Reload systemd daemon
+  systemd:
+    name: "{{ drone_service_name }}"
+    daemon_reload: true
+    state: restarted
+  when: drone_runner_service_file_updated is changed
+
+- name: Force a restart if configuration has changed
+  meta: flush_handlers

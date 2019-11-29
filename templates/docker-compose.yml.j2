@@ -1,0 +1,14 @@
+version: "3"
+services:
+  runner:
+    image: {{ drone_runner_image }}
+    ports:
+      - "3000:3000"
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+    environment:
+      - DRONE_RPC_PROTO={{ drone_rpc_proto }}
+      - DRONE_RPC_HOST={{ drone_rpc_host }}
+      - DRONE_RPC_SECRET={{ drone_rpc_secret }}
+      - DRONE_RUNNER_CAPACITY={{ drone_runner_capacity }}
+      - DRONE_RUNNER_NAME={{ ansible_hostname }}
